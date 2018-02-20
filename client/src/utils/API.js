@@ -16,5 +16,10 @@ export default {
   // Saves a book to the database
   saveArticle: function(bookData) {
     return axios.post("/api/books", bookData);
+  },
+  nytQuery: function(query, startDate, endDate) {
+    return axios.get("https://cors-anywhere.herokuapp.com/https://www.nytimes.com/search/" + query + "/best/" + startDate + "/" + endDate);
   }
 };
+
+
