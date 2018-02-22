@@ -14,7 +14,7 @@ var ArticleSchema = new Schema({
   // `date` is required and of type Date
   date: {
     type: Date,
-    required: true
+    default: Date.now
   },
   // `url` is required and of type String
   url: {

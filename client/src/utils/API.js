@@ -1,25 +1,63 @@
 import axios from "axios";
 
+const APIKey = "6a7be2f08d9149deac4d5aa878bd41ec"
+
 export default {
-  // Gets all books
-  getArticles: function() {
-    return axios.get("/api/books");
-  },
-  // Gets the book with the given id
-  getArticle: function(id) {
-    return axios.get("/api/books/" + id);
-  },
-  // Deletes the book with the given id
-  deleteArticle: function(id) {
-    return axios.delete("/api/books/" + id);
-  },
-  // Saves a book to the database
-  saveArticle: function(bookData) {
-    return axios.post("/api/books", bookData);
-  },
-  nytQuery: function(query, startDate, endDate) {
-    return axios.get("https://cors-anywhere.herokuapp.com/https://www.nytimes.com/search/" + query + "/best/" + startDate + "/" + endDate);
-  }
+  runQuery: function(term, start, end) {
+
+		var term = term.trim();
+		var start = start.trim() + "0101";
+		var end = end.trim() + "1231";
+
+		return axios.get("https://api.nytimes.com/svc/search/v2/articlesearch.json", {
+			params: {
+				"api-key": APIKey,
+				"q": term,
+				"begin_date": start,
+				"end_date": end
+			}
+		})
+
+		.then(function(results){
+
+			return results.data.response;
+
+		});
+	},
+
+	getSaved: function(){
+
+		return axios.get("/api/saved")
+			.then(function(results){
+
+				return results;
+			})
+	},
+
+	postSaved: function(title, date, url) {
+
+		var newArticle = {title: title, date: date, url: url};
+		return axios.post("/api/saved", newArticle)
+			.then(function(results){
+				return results._id;
+			})
+	},
+
+	deletedSaved: function(title, data, url){
+
+		return axios.delete("/api/saved", {
+			params: {
+				"title": title,
+				"data": data,
+				"url": url
+			}
+		})
+
+		.then(function(results){
+			return results;
+		})
+
+	}
 };
 
 

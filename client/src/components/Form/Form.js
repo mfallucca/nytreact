@@ -4,7 +4,7 @@ import React from "react";
 const SearchForm = props =>
   <form className="search">
     <div className="form-group">
-      <label htmlFor="queryString">Search:</label>
+      <label htmlFor="queryString">NYT Search:</label>
       <input
         value={props.search}
         onChange={props.handleInputChangeQuery}
