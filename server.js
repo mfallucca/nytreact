@@ -21,9 +21,6 @@ mongoose.Promise = global.Promise;
 // Connect to the Mongo DB
 mongoose.connect(
   process.env.MONGODB_URI || "mongodb://admin:password@ds147668.mlab.com:47668/heroku_txsfzn08",
-  {
-    useMongoClient: true
-  }
 );
 
 
