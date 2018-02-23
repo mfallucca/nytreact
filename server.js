@@ -25,9 +25,8 @@ mongoose.connect(
 
 
 // Main "/" Route. This will redirect the user to our rendered React app
-// line 47 might need /public removed - have to see how it works
 app.get("/", function(req, res) {
-  res.sendFile(__dirname + "/public/index.html");
+  res.sendFile(__dirname + "/client/public/index.html");
 });
 
 
