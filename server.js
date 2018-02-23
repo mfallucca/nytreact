@@ -14,7 +14,7 @@ const db = require("./models");
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 // Serve up static assets
-app.use(express.static("client/public"));
+app.use('/static', express.static(path.join(__dirname, 'client/public')));
 
 // Set up promises with mongoose
 mongoose.Promise = global.Promise;
