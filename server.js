@@ -60,6 +60,7 @@ app.post("/api/saved", function(req, res) {
   var newArticle = new Article(req.body);
 
 // breaks down requested body data and stores in seperate variables
+  var _id = req.body._id;
   var title = req.body.title;
   var date = req.body.date;
   var url = req.body.url;
@@ -81,15 +82,20 @@ app.post("/api/saved", function(req, res) {
 // Delete - route components use to delete a saved article
 app.delete("/api/saved", function(req, res) {
 
-  var url = req.params('url');
+  console.log(req.query.url)
+  var url = req.query.url;
 
-  Article.find({"url": url}).remove().exec(function(err, data){
+  Article.remove({"url": url}, function(err, data){
+
+    console.log(data)
+    console.log(err)
+    console.log("test")
 
     if(err){
       console.log(err);
     }
     else {
-      res.send("Article Deleted");
+      res.redirect('/')
     }
 
   });

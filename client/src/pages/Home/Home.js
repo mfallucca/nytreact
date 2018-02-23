@@ -4,6 +4,7 @@ import API from "../../utils/API";
 import { Link } from "react-router-dom";
 import { Col, Row, Container } from "../../components/Grid";
 import Jumbotron from "../../components/Jumbotron";
+import SaveBtn from "../../components/SaveBtn";
 import SearchForm from "../../components/Form";
 import { SavedList, SavedListItem  } from "../../components/Saved";
 import { SearchList, SearchListItem  } from "../../components/Search";
@@ -13,7 +14,8 @@ class Home extends Component {
       search: "",
       startDate: "",
       endDate: "",
-      results: []
+      results: [],
+      saved: []
     };
 
     handleInputChangeQuery = event => {
@@ -28,6 +30,12 @@ class Home extends Component {
       this.setState({ endDate: event.target.value });
     };
   
+    componentDidMount() {
+      API.getSaved().then(function(response) {
+        this.setState({ saved: response.data});
+        console.log(this.state.saved)
+      }.bind(this)
+    )}
 
     handleFormSubmit = event => {
       event.preventDefault();
@@ -56,12 +64,13 @@ class Home extends Component {
 
     };
 
+    
 render() {
   return (
     <div>
       <Container fluid>
         <Row>
-          <Col size="col-sm-6 offset-sm-3">
+          <Col size="col-sm-12 col-md-6 col-md-offset-3">
             <Jumbotron>
               <SearchForm 
                 handleFormSubmit={this.handleFormSubmit}
@@ -75,7 +84,7 @@ render() {
       </Container>
       <Container fluid>
         <Row>
-          <Col size="col-sm-6 offset-sm-3">
+          <Col size="col-sm-12 col-md-6 col-md-offset-3">
             <Jumbotron>
               {this.state.results.length ? (
                 <SearchList>
@@ -86,6 +95,7 @@ render() {
                           {article.title}
                         </strong>
                       </a>
+                      <SaveBtn _id={article._id} title={article.title} data={article.data} url={article.url} />
                     </SearchListItem>
                   ))}
                 </SearchList>
@@ -98,9 +108,24 @@ render() {
       </Container>
       <Container fluid>
         <Row>
-          <Col size="col-sm-6 offset-sm-3">
+          <Col size="col-sm-12 col-md-6 col-md-offset-3">
             <Jumbotron>
-              <SavedList />
+              {this.state.saved.length ? (
+                <SavedList>
+                  {this.state.saved.map(saved => (
+                    <SavedListItem key={saved._id}>
+                        <a href={saved.url}>
+                          <strong>
+                            {saved.title}
+                          </strong>
+                        </a>
+                        <DeleteBtn _id={saved._id} title={saved.title} data={saved.data} url={saved.url}/>
+                        </SavedListItem>
+                    ))}
+                  </SavedList>
+              ) : (
+                <h3>No Results to Display</h3>
+              )}
             </Jumbotron>
           </Col>
         </Row>

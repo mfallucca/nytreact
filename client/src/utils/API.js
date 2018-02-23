@@ -34,23 +34,27 @@ export default {
 			})
 	},
 
-	postSaved: function(title, date, url) {
+	postSaved: function(_id, title, date, url) {
 
-		var newArticle = {title: title, date: date, url: url};
+		var newArticle = {_id: _id, title: title, date: date, url: url};
 		return axios.post("/api/saved", newArticle)
 			.then(function(results){
+				console.log("yay")
 				return results._id;
+
 			})
 	},
 
-	deletedSaved: function(title, data, url){
-
+	deletedSaved: function(_id, title, date, url){
+		console.log("deleted")
 		return axios.delete("/api/saved", {
 			params: {
+				"_id": _id,
 				"title": title,
-				"data": data,
+				"date": date,
 				"url": url
 			}
+
 		})
 
 		.then(function(results){
