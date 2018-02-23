@@ -37,10 +37,10 @@ app.get("/", function(req, res) {
 // Get - route components use to query db for all saved articles.
 app.get("/api/saved", function(req, res) {
 
-  // find all records then sort by date in descending order and return 10 records
+  // find all records then sort by date in descending order and return 5 records
   Article.find({}).sort([
     ["date", "descending"]
-  ]).limit(10).exec(function(err, doc) {
+  ]).limit(5).exec(function(err, doc) {
     
     if (err) {
       console.log(err);
@@ -95,7 +95,8 @@ app.delete("/api/saved", function(req, res) {
       console.log(err);
     }
     else {
-      res.redirect('/')
+      req.method = 'GET'
+      res.redirect(303, '/')
     }
 
   });

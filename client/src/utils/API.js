@@ -5,9 +5,9 @@ const APIKey = "6a7be2f08d9149deac4d5aa878bd41ec"
 export default {
   runQuery: function(term, start, end) {
 
-		var term = term.trim();
-		var start = start.trim() + "0101";
-		var end = end.trim() + "1231";
+		term = term.trim();
+		start = start.trim() + "0101";
+		end = end.trim() + "1231";
 
 		return axios.get("https://api.nytimes.com/svc/search/v2/articlesearch.json", {
 			params: {

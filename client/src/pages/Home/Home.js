@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import DeleteBtn from "../../components/DeleteBtn";
 import API from "../../utils/API";
-import { Link } from "react-router-dom";
 import { Col, Row, Container } from "../../components/Grid";
 import Jumbotron from "../../components/Jumbotron";
 import SaveBtn from "../../components/SaveBtn";
@@ -31,11 +30,20 @@ class Home extends Component {
     };
   
     componentDidMount() {
-      API.getSaved().then(function(response) {
+      this.loadSaved();
+    };
+
+    loadSaved = () => {
+      API.getSaved().then(response => {
         this.setState({ saved: response.data});
         console.log(this.state.saved)
-      }.bind(this)
-    )}
+        }
+      )
+    };
+
+    saveArticle = () => {
+      API.postSaved()
+    }
 
     handleFormSubmit = event => {
       event.preventDefault();
@@ -95,7 +103,7 @@ render() {
                           {article.title}
                         </strong>
                       </a>
-                      <SaveBtn _id={article._id} title={article.title} data={article.data} url={article.url} />
+                      <SaveBtn _id={article._id} title={article.title} date={article.date} url={article.url} onClick={this.loadSaved} />
                     </SearchListItem>
                   ))}
                 </SearchList>
@@ -119,12 +127,12 @@ render() {
                             {saved.title}
                           </strong>
                         </a>
-                        <DeleteBtn _id={saved._id} title={saved.title} data={saved.data} url={saved.url}/>
+                        <DeleteBtn _id={saved._id} title={saved.title} date={saved.date} url={saved.url}/>
                         </SavedListItem>
                     ))}
                   </SavedList>
               ) : (
-                <h3>No Results to Display</h3>
+                <h3>No Saved Articles to Display</h3>
               )}
             </Jumbotron>
           </Col>
