@@ -14,8 +14,9 @@ const db = require("./models");
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 // Serve up static assets
-app.use('/static', express.static(path.join(__dirname, 'client/public')));
-
+if (process.env.NODE_ENV === "production") {
+  app.use(express.static("client/build"));
+}
 // Set up promises with mongoose
 mongoose.Promise = global.Promise;
 // Connect to the Mongo DB
@@ -26,7 +27,7 @@ mongoose.connect(
 
 // Main "/" Route. This will redirect the user to our rendered React app
 app.get("/", function(req, res) {
-  res.sendFile(__dirname + "/client/public/index.html");
+  res.sendFile(path.join(__dirname, "./client/build/index.html"));
 });
 
 
